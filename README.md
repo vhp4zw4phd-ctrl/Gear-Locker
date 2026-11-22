@@ -35,6 +35,31 @@ Then open http://localhost:8000.
   locker.
 - Light and dark themes, collapsing navigation on phones.
 
+### Type
+
+"Console": **Mona Sans** for headlines (width 118–125, weight 800) and all
+text (width 100), plus **Geist Mono** for readouts such as clock positions.
+Both are free variable fonts. The prototype loads them from Google Fonts; the
+app should bundle them so it works offline and sends nothing to Google:
+
+```bash
+npm install @fontsource-variable/mona-sans @fontsource-variable/geist-mono
+```
+
+```ts
+// src/main.tsx
+import '@fontsource-variable/mona-sans';
+import '@fontsource-variable/geist-mono';
+```
+
+```css
+:root {
+  --f-display: "Mona Sans Variable", system-ui, sans-serif;
+  --f-body: "Mona Sans Variable", system-ui, sans-serif;
+  --f-mono: "Geist Mono Variable", ui-monospace, monospace;
+}
+```
+
 ### Palette
 
 Built from the WGSN x Coloro Spring/Summer 2027 key colours, adapted for

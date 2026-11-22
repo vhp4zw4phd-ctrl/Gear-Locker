@@ -10,19 +10,20 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400..700&family=Mona+Sans:wdth,wght@75..125,200..900&display=swap">
 <style>
 /* Layout: desktop-first studio site. Wide headline over a full-bleed dark "rack" where the real gear illustration is the hero control; quiet bench-grey sections below. */
 :root{
-  /* Palette: S/S 2027 key colours (WGSN x Coloro) adapted for screens. Energy Orange = action and recall; Clay = neutrals; Meadowland Green = synced/OK. */
+  /* Type: "Console" = Mona Sans (wide for headlines, normal for text) + Geist Mono for readouts.
+     Palette: S/S 2027 key colours (WGSN x Coloro) adapted for screens. Energy Orange = action and recall; Clay = neutrals; Meadowland Green = synced/OK. */
   --bg:#F1EEEC; --surface:#FBFAF9; --sunk:#E7E2DE; --ink:#1C1714; --muted:#5C524C; --line:#DCD4CE;
   --accent:#E8611A; --accent-ink:#1C1714; --accent-text:#B0460D; --accent-soft:#FBE2D2;
   --ok:#5E7F45; --pink:#E58DB6;
   --rack:#1B1714; --rack-2:#25201C; --rack-ink:#F0EAE4; --rack-muted:#ABA097; --rack-line:#3A322C;
   --paper:#FCFBF8; --paper-ink:#1E1A17;
-  --f-display:"Archivo","Arial Narrow",Arial,sans-serif;
-  --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --f-display:"Mona Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Mona Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   --radius:6px;
   --gut:max(16px,env(safe-area-inset-left,0px));
   --gut-r:max(16px,env(safe-area-inset-right,0px));
@@ -66,7 +67,7 @@ header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;backgrou
 .nav{display:flex;align-items:center;gap:28px;height:64px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand img{width:34px;height:auto}
-.brand b{font-family:var(--f-display);font-variation-settings:"wdth" 112;font-weight:800;font-size:19px;letter-spacing:-.01em}
+.brand b{font-family:var(--f-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:19px;letter-spacing:-.01em}
 .nav nav{display:flex;gap:24px;margin-left:auto;align-items:center}
 .nav nav a{text-decoration:none;font-weight:500;font-size:15px;color:var(--muted)}
 .nav nav a:hover{color:var(--ink)}
@@ -96,7 +97,7 @@ header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;backgrou
 /* Hero */
 .hero{padding-block:64px 40px}
 .hero-top{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:end}
-.hero h1{font-size:clamp(44px,6.4vw,92px);line-height:.95;font-variation-settings:"wdth" 108;font-weight:820}
+.hero h1{font-size:clamp(44px,6.4vw,92px);line-height:.95;font-variation-settings:"wdth" 125;font-weight:800}
 .hero h1 em{font-style:normal;color:var(--accent-text)}
 .hero .lede{font-size:19px;color:var(--muted);max-width:46ch}
 .hero .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
@@ -145,7 +146,7 @@ header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;backgrou
 section.band{padding-block:88px}
 section.band + section.band{border-top:1px solid var(--line)}
 .sec-head{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:40px}
-.sec-head h2{font-size:clamp(32px,3.8vw,52px);line-height:1;font-variation-settings:"wdth" 104;font-weight:800}
+.sec-head h2{font-size:clamp(32px,3.8vw,52px);line-height:1;font-variation-settings:"wdth" 118;font-weight:800}
 .sec-head p{color:var(--muted);max-width:52ch}
 @media (max-width:860px){section.band{padding-block:56px}.sec-head{grid-template-columns:1fr;gap:14px;margin-bottom:28px}}
 
@@ -214,7 +215,7 @@ section.band + section.band{border-top:1px solid var(--line)}
 @media (max-width:760px){.prices{grid-template-columns:1fr}}
 .price{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px;display:flex;flex-direction:column;gap:16px}
 .price.feat{border:2px solid var(--accent)}
-.price .amt{font-family:var(--f-display);font-variation-settings:"wdth" 100;font-weight:800;font-size:56px;line-height:1}
+.price .amt{font-family:var(--f-display);font-variation-settings:"wdth" 112;font-weight:800;font-size:56px;line-height:1}
 .price .amt small{font:500 14px var(--f-mono);color:var(--muted);letter-spacing:.06em;margin-left:8px}
 .price ul{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:16px}
 .price li{display:grid;grid-template-columns:18px 1fr;gap:10px}
@@ -236,7 +237,7 @@ footer a:hover{color:var(--ink)}
 .steps i{width:28px;height:4px;border-radius:2px;background:var(--line)}
 .steps i.on{background:var(--accent)}
 .app-body{padding-block:40px 80px}
-.app-body h1{font-size:clamp(32px,4vw,48px);font-variation-settings:"wdth" 104;font-weight:800;line-height:1.02}
+.app-body h1{font-size:clamp(32px,4vw,48px);font-variation-settings:"wdth" 118;font-weight:800;line-height:1.02}
 .app-body .sub{color:var(--muted);margin-top:10px;max-width:60ch}
 .picker-tools{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 18px;align-items:center}
 .search{flex:1 1 280px;max-width:420px;position:relative}
@@ -411,7 +412,7 @@ footer a:hover{color:var(--ink)}
     <div class="wrap sync">
       <div>
         <span class="label">New · included with Full Locker</span>
-        <h2 id="syncTitle" style="font-size:clamp(32px,3.8vw,52px);line-height:1;font-variation-settings:'wdth' 104;font-weight:800;margin-top:12px">The studio Mac and the laptop, in step.</h2>
+        <h2 id="syncTitle" style="font-size:clamp(32px,3.8vw,52px);line-height:1;font-variation-settings:'wdth' 118;font-weight:800;margin-top:12px">The studio Mac and the laptop, in step.</h2>
         <p style="color:var(--muted);margin-top:16px;max-width:52ch">Turn on sync and your locker follows you between machines. Everything is encrypted on your device before it leaves, so we store data we can’t read.</p>
         <ul>
           <li><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="3" y="8" width="12" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 8V6a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><div><b>Encrypted end to end</b><span>Your passphrase never leaves your devices. Lose it and we can’t recover your data, so keep your backup export too.</span></div></li>
