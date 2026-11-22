@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>[hidden]{display:none!important}body{margin:0}img{max-width:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+</head>
+<body>
+<title>Gear Locker Bench</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: desktop-first studio site. Wide headline over a full-bleed dark "rack" where the real gear illustration is the hero control; quiet bench-grey sections below. */
+:root{
+  /* Palette: S/S 2027 key colours (WGSN x Coloro) adapted for screens. Energy Orange = action and recall; Clay = neutrals; Meadowland Green = synced/OK. */
+  --bg:#F1EEEC; --surface:#FBFAF9; --sunk:#E7E2DE; --ink:#1C1714; --muted:#5C524C; --line:#DCD4CE;
+  --accent:#E8611A; --accent-ink:#1C1714; --accent-text:#B0460D; --accent-soft:#FBE2D2;
+  --ok:#5E7F45; --pink:#E58DB6;
+  --rack:#1B1714; --rack-2:#25201C; --rack-ink:#F0EAE4; --rack-muted:#ABA097; --rack-line:#3A322C;
+  --paper:#FCFBF8; --paper-ink:#1E1A17;
+  --f-display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --radius:6px;
+  --gut:max(16px,env(safe-area-inset-left,0px));
+  --gut-r:max(16px,env(safe-area-inset-right,0px));
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#131110; --surface:#1C1916; --sunk:#25211D; --ink:#F1EBE6; --muted:#AFA49B; --line:#352E29;
+  --accent:#FF7A33; --accent-ink:#1A120D; --accent-text:#FF9257; --accent-soft:#3B2416;
+  --ok:#97BC7A; --pink:#F2A6C9;
+  --rack:#0B0908; --rack-2:#16120F; --rack-ink:#F0EAE4; --rack-muted:#9B9087; --rack-line:#2C2521;
+  --paper:#221E1B; --paper-ink:#EDE7E1; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131110; --surface:#1C1916; --sunk:#25211D; --ink:#F1EBE6; --muted:#AFA49B; --line:#352E29;
+  --accent:#FF7A33; --accent-ink:#1A120D; --accent-text:#FF9257; --accent-soft:#3B2416;
+  --ok:#97BC7A; --pink:#F2A6C9;
+  --rack:#0B0908; --rack-2:#16120F; --rack-ink:#F0EAE4; --rack-muted:#9B9087; --rack-line:#2C2521;
+  --paper:#221E1B; --paper-ink:#EDE7E1; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--surface)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding-left:var(--gut);padding-right:var(--gut)}
+.label{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Prototype bar */
+.protobar{background:var(--ink);color:var(--bg);font-family:var(--f-mono);font-size:12px;letter-spacing:.04em}
+.protobar .wrap{display:flex;align-items:center;gap:16px;min-height:36px;flex-wrap:wrap;padding-block:6px}
+.protobar a{text-decoration:none;opacity:.7;padding:2px 0;border-bottom:1px solid transparent}
+.protobar a[aria-current="page"]{opacity:1;border-bottom-color:currentColor}
+.protobar .sp{flex:1}
+.protobar button{font:inherit;color:inherit;background:transparent;border:1px solid color-mix(in srgb,var(--bg) 35%,transparent);border-radius:4px;padding:3px 10px;cursor:pointer}
+
+/* Header */
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:28px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{width:34px;height:auto}
+.brand b{font-family:var(--f-display);font-variation-settings:"wdth" 112;font-weight:800;font-size:19px;letter-spacing:-.01em}
+.nav nav{display:flex;gap:24px;margin-left:auto;align-items:center}
+.nav nav a{text-decoration:none;font-weight:500;font-size:15px;color:var(--muted)}
+.nav nav a:hover{color:var(--ink)}
+.nav nav a.btn-primary,.nav nav a.btn-primary:hover{color:var(--accent-ink)}
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 15px/1 var(--f-body);padding:13px 18px;border-radius:var(--radius);text-decoration:none;border:1px solid transparent;cursor:pointer;white-space:nowrap}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn-sm{padding:10px 14px;font-size:14px}
+.menu-btn{display:none;margin-left:auto;background:transparent;border:1px solid var(--line);border-radius:var(--radius);width:44px;height:44px;cursor:pointer;color:var(--ink)}
+.menu-btn span{display:block;width:18px;height:2px;background:currentColor;margin:4px auto;transition:transform .2s}
+.menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
+.menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.sheet{display:none}
+@media (max-width:860px){
+  .nav nav{display:none}
+  .menu-btn{display:block}
+  .sheet{display:block;border-top:1px solid var(--line);background:var(--surface)}
+  .sheet[hidden]{display:none!important}
+  .sheet .wrap{display:grid;gap:4px;padding-block:12px 20px}
+  .sheet a:not(.btn){padding:12px 0;text-decoration:none;font-size:18px;font-weight:600;border-bottom:1px solid var(--line)}
+  .sheet .btn{margin-top:12px;justify-content:center}
+}
+
+/* Hero */
+.hero{padding-block:64px 40px}
+.hero-top{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:end}
+.hero h1{font-size:clamp(44px,6.4vw,92px);line-height:.95;font-variation-settings:"wdth" 108;font-weight:820}
+.hero h1 em{font-style:normal;color:var(--accent-text)}
+.hero .lede{font-size:19px;color:var(--muted);max-width:46ch}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.hero .meta{margin-top:18px;display:flex;gap:18px;flex-wrap:wrap}
+.hero .meta span{display:inline-flex;align-items:center;gap:8px}
+.hero .meta span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok)}
+@media (max-width:860px){.hero{padding-block:36px 28px}.hero-top{grid-template-columns:1fr;gap:20px}.hero .lede{font-size:17px}}
+
+/* Rack stage */
+.rack{background:var(--rack);color:var(--rack-ink);border-block:1px solid var(--rack-line)}
+.rack .wrap{padding-block:28px 32px}
+.rack-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.rack-head .label{color:var(--rack-muted)}
+.rack-head h2{font-size:20px;font-variation-settings:"wdth" 100;font-weight:700;letter-spacing:0}
+.rack-head .sp{flex:1}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:500 13px/1 var(--f-mono);letter-spacing:.02em;padding:9px 12px;border-radius:999px;border:1px solid var(--rack-line);background:var(--rack-2);color:var(--rack-ink);cursor:pointer}
+.chip:hover{border-color:var(--rack-muted)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.unit-scroll{overflow-x:auto;border-radius:4px;-webkit-overflow-scrolling:touch}
+.unit{position:relative;min-width:0}
+.unit svg{display:block;width:100%;height:auto}
+.unit .realistic-control[data-interactive]{cursor:grab}
+.unit .realistic-control[data-interactive]:active{cursor:grabbing}
+.unit .realistic-control[data-interactive]:focus{outline:none}
+.unit .realistic-control[data-interactive]:focus-visible .realistic-selection,.unit .realistic-control[data-interactive]:hover .realistic-selection{opacity:.9!important}
+.unit .realistic-selection{stroke:var(--accent)!important}
+.unit .realistic-control.is-on .realistic-selection{opacity:1!important;stroke:var(--accent)!important;stroke-width:4px!important}
+.unit .realistic-control.is-on > g > g{filter:brightness(1.5)}
+.swipe-hint{display:none}
+@media (max-width:700px){.rack .unit-scroll #heroUnit{min-width:760px}.swipe-hint{display:block;margin-top:8px;color:var(--rack-muted)}}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:1px;background:var(--rack-line);border:1px solid var(--rack-line);border-radius:4px;margin-top:16px;overflow:hidden}
+.readout div{background:var(--rack-2);padding:10px 12px;min-width:0}
+.readout dt{font:500 11px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--rack-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.readout dd{margin:4px 0 0;font:600 20px/1.1 var(--f-mono);font-variant-numeric:tabular-nums;color:var(--rack-ink)}
+.readout div.changed dd{color:var(--accent)}
+.save-row{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.save-row input{font:500 15px var(--f-body);padding:12px 14px;border-radius:var(--radius);border:1px solid var(--rack-line);background:var(--rack-2);color:var(--rack-ink);min-width:0;flex:1 1 220px;max-width:340px}
+.save-row .hint{color:var(--rack-muted);font-size:14px}
+.toast{font:500 13px var(--f-mono);color:var(--rack-ink);opacity:0;transition:opacity .3s}
+.toast.show{opacity:1}
+.saved-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.saved-list .chip{border-style:dashed}
+
+/* Sections */
+section.band{padding-block:88px}
+section.band + section.band{border-top:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:40px}
+.sec-head h2{font-size:clamp(32px,3.8vw,52px);line-height:1;font-variation-settings:"wdth" 104;font-weight:800}
+.sec-head p{color:var(--muted);max-width:52ch}
+@media (max-width:860px){section.band{padding-block:56px}.sec-head{grid-template-columns:1fr;gap:14px;margin-bottom:28px}}
+
+/* Library */
+.cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.cat{font:600 14px/1 var(--f-body);padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.cat[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.lib{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media (max-width:1000px){.lib{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:700px){.lib{grid-template-columns:repeat(2,1fr);gap:10px}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;cursor:pointer;text-align:left;font:inherit;color:inherit;padding:0;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card .pic{aspect-ratio:4/3;background:var(--sunk);padding:16px;overflow:hidden;max-width:100%}
+.card .pic img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 10px rgb(0 0 0 / .18))}
+.card.build .pic{display:grid;place-items:center}
+.card .meta{padding:12px 14px 14px;display:grid;gap:4px;min-width:0}
+.card .meta b{font-weight:600;font-size:15px;line-height:1.3}
+.card.build .pic{background:transparent;border-bottom:1px dashed var(--line)}
+.card.build .plus{width:56px;height:56px;border-radius:50%;border:2px dashed var(--muted);display:grid;place-items:center;font:400 30px/1 var(--f-body);color:var(--muted)}
+.fine{font-size:13px;color:var(--muted);margin-top:18px}
+
+/* Patch → session → recall */
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:1000px){.flow{grid-template-columns:1fr}}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.step h3{font-size:24px;font-variation-settings:"wdth" 100;font-weight:750}
+.step p{color:var(--muted);font-size:16px}
+.mini{background:var(--sunk);border-radius:4px;padding:14px;font-family:var(--f-mono);font-size:13px;min-height:178px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.mini .row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.mini .row:last-child{border-bottom:0}
+.mini .row span:last-child{font-weight:600;font-variant-numeric:tabular-nums}
+.chain{display:flex;align-items:stretch;gap:6px;overflow-x:auto}
+.chain .link{flex:1 0 82px;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:8px;display:flex;flex-direction:column;gap:6px;min-width:82px}
+.chain .link img{height:34px;width:100%;object-fit:contain}
+.chain .link b{font-size:11px;font-weight:600;line-height:1.2}
+.chain .link small{font-size:11px;color:var(--muted);line-height:1.3}
+.chain .arr{align-self:center;color:var(--muted)}
+.sheetpaper{background:var(--paper);color:var(--paper-ink);border:1px solid var(--line);border-radius:3px;padding:14px;box-shadow:0 1px 0 var(--line),0 10px 24px -12px rgb(0 0 0 / .25);transform:rotate(-.6deg)}
+.sheetpaper .t{display:flex;justify-content:space-between;font-weight:600;margin-bottom:8px;gap:8px}
+.sheetpaper table{width:100%;border-collapse:collapse;font-size:12px}
+.sheetpaper td{padding:4px 0;border-top:1px dotted color-mix(in srgb,var(--paper-ink) 30%,transparent)}
+.sheetpaper td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+
+/* Sync */
+.sync{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center}
+@media (max-width:1000px){.sync{grid-template-columns:1fr}}
+.sync ul{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:14px}
+.sync li{display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start}
+.sync li svg{margin-top:3px}
+.sync li b{display:block}
+.sync li span{color:var(--muted);font-size:16px}
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:center}
+@media (max-width:600px){.diagram{grid-template-columns:1fr;justify-items:stretch}.diagram .wire{transform:rotate(90deg);justify-self:center}}
+.dev{border:1px solid var(--line);border-radius:6px;padding:14px;background:var(--bg);display:grid;gap:6px;min-width:0}
+.dev b{font-size:15px}
+.dev .label{font-size:11px}
+.dev .plain{font-family:var(--f-mono);font-size:12px;color:var(--ink)}
+.cloud{border:1px dashed var(--muted);border-radius:6px;padding:14px;display:grid;gap:6px;text-align:center;min-width:0}
+.cloud code{font:500 11px/1.4 var(--f-mono);color:var(--muted);word-break:break-all}
+.wire{color:var(--accent-text);font:600 18px var(--f-mono);text-align:center}
+.sync-status{display:flex;gap:10px;align-items:center;margin-top:14px;font-family:var(--f-mono);font-size:12px;color:var(--muted);grid-column:1/-1}
+.sync-status i{width:8px;height:8px;border-radius:50%;background:var(--ok);display:inline-block}
+
+/* Pricing */
+.prices{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:920px}
+@media (max-width:760px){.prices{grid-template-columns:1fr}}
+.price{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px;display:flex;flex-direction:column;gap:16px}
+.price.feat{border:2px solid var(--accent)}
+.price .amt{font-family:var(--f-display);font-variation-settings:"wdth" 100;font-weight:800;font-size:56px;line-height:1}
+.price .amt small{font:500 14px var(--f-mono);color:var(--muted);letter-spacing:.06em;margin-left:8px}
+.price ul{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:16px}
+.price li{display:grid;grid-template-columns:18px 1fr;gap:10px}
+.price li::before{content:"";width:10px;height:10px;margin-top:7px;border:2px solid var(--accent);border-radius:2px}
+.price li.new::after{content:"New";grid-column:2;justify-self:start;font:600 11px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:var(--accent-soft);color:var(--accent-text);padding:4px 6px;border-radius:3px;margin-top:-4px}
+.price .btn{justify-content:center;margin-top:auto}
+
+footer{border-top:1px solid var(--line);padding-block:32px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+footer nav{display:flex;gap:18px;flex-wrap:wrap;margin-left:auto}
+footer a{text-decoration:none}
+footer a:hover{color:var(--ink)}
+
+/* ===== First run app ===== */
+.app{min-height:70vh}
+.app-top{border-bottom:1px solid var(--line);background:var(--surface)}
+.app-top .wrap{display:flex;align-items:center;gap:20px;height:60px}
+.steps{display:flex;gap:6px;margin-left:auto;align-items:center}
+.steps i{width:28px;height:4px;border-radius:2px;background:var(--line)}
+.steps i.on{background:var(--accent)}
+.app-body{padding-block:40px 80px}
+.app-body h1{font-size:clamp(32px,4vw,48px);font-variation-settings:"wdth" 104;font-weight:800;line-height:1.02}
+.app-body .sub{color:var(--muted);margin-top:10px;max-width:60ch}
+.picker-tools{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 18px;align-items:center}
+.search{flex:1 1 280px;max-width:420px;position:relative}
+.search input{width:100%;font:500 16px var(--f-body);padding:13px 14px 13px 40px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.empty{padding:28px;border:1px dashed var(--line);border-radius:var(--radius);color:var(--muted);grid-column:1/-1}
+.backlink{background:none;border:0;color:var(--muted);font:500 15px var(--f-body);cursor:pointer;padding:0;margin-bottom:18px}
+.backlink:hover{color:var(--ink)}
+.dial{margin-top:24px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--rack-line)}
+.dial .rack .wrap{max-width:none}
+.dial-unit{max-width:1100px;margin:0 auto}
+.dial-unit.tall{max-width:230px}
+.dial-unit.mid{max-width:640px}
+.locker{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;margin-top:28px}
+@media (max-width:900px){.locker{grid-template-columns:1fr}}
+.piece{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:grid;grid-template-columns:140px 1fr;gap:20px;align-items:center}
+@media (max-width:520px){.piece{grid-template-columns:1fr}}
+.piece .pic{background:var(--sunk);border-radius:4px;aspect-ratio:1;display:grid;place-items:center;padding:12px}
+.piece .pic img{max-height:100%;object-fit:contain}
+.piece h3{font-size:22px;font-variation-settings:"wdth" 100;font-weight:750}
+.patch-pill{display:inline-flex;gap:8px;align-items:center;margin-top:10px;padding:8px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent-text);font:600 13px var(--f-mono)}
+.next{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:grid;gap:14px}
+.next h3{font-size:18px;font-variation-settings:"wdth" 100;font-weight:700}
+.sugg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sugg button{background:var(--sunk);border:1px solid transparent;border-radius:4px;padding:10px 6px;cursor:pointer;display:grid;gap:6px;color:var(--ink);font:500 12px/1.2 var(--f-body)}
+.sugg button:hover{border-color:var(--accent)}
+.sugg img{height:44px;width:100%;object-fit:contain}
+.toggle-row{display:flex;align-items:center;gap:14px;justify-content:space-between;border-top:1px solid var(--line);padding-top:14px}
+.switch{position:relative;width:46px;height:26px;flex:none}
+.switch input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.switch span{position:absolute;inset:0;border-radius:13px;background:var(--line);transition:background .2s;pointer-events:none}
+.switch span::after{content:"";position:absolute;width:20px;height:20px;border-radius:50%;background:var(--surface);top:3px;left:3px;transition:transform .2s;box-shadow:0 1px 2px rgb(0 0 0 / .3)}
+.switch input:checked + span{background:var(--accent)}
+.switch input:checked + span::after{transform:translateX(20px)}
+.switch input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+
+<div class="protobar">
+  <div class="wrap">
+    <strong>Prototype · Direction A “The Bench”</strong>
+    <a href="#home" data-route="home">Homepage</a>
+    <a href="#start" data-route="start">First run in the app</a>
+    <span class="sp"></span>
+    <button type="button" id="themeBtn" aria-label="Switch light or dark theme">Theme: system</button>
+  </div>
+</div>
+
+<!-- ================= HOMEPAGE ================= -->
+<div id="view-home">
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="#home" aria-label="Gear Locker home"><img src="img/mark.svg" alt=""><b>Gear Locker</b></a>
+    <nav aria-label="Main">
+      <a href="#library">Templates</a>
+      <a href="#how">How it works</a>
+      <a href="#sync">Sync</a>
+      <a href="#pricing">Pricing</a>
+      <a class="btn btn-primary btn-sm" href="#start">Open your locker</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="sheet" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+  <div class="sheet" id="sheet" hidden>
+    <div class="wrap">
+      <a href="#library">Templates</a>
+      <a href="#how">How it works</a>
+      <a href="#sync">Sync</a>
+      <a href="#pricing">Pricing</a>
+      <a class="btn btn-primary" href="#start">Open your locker</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap" aria-labelledby="h1">
+    <div class="hero-top">
+      <h1 id="h1">Every knob,<br><em>back where it was.</em></h1>
+      <div>
+        <p class="lede">Your outboard doesn’t remember last month’s mix. Gear Locker does. Save the settings on your compressors, preamps, synths and mics, then rebuild the chain in minutes.</p>
+        <div class="ctas">
+          <a class="btn btn-primary" href="#start">Start free with 5 pieces <span aria-hidden="true">→</span></a>
+          <a class="btn btn-ghost" href="#library">Browse 120 templates</a>
+        </div>
+        <div class="meta label"><span>No account</span><span>Works offline</span><span>$14 once</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rack" aria-labelledby="rackTitle">
+    <div class="wrap">
+      <div class="rack-head">
+        <span class="label">Try it · drag a knob</span>
+        <h2 id="rackTitle">Universal Audio 1176LN</h2>
+        <span class="sp"></span>
+        <div class="chips" id="heroPresets" role="group" aria-label="Load a saved patch"></div>
+      </div>
+      <div class="unit-scroll"><div class="unit" id="heroUnit" data-template="universal-audio-1176ln-limiting-amplifier"></div></div>
+      <p class="label swipe-hint">Swipe sideways to see the whole unit</p>
+      <dl class="readout" id="heroReadout"></dl>
+      <div class="save-row">
+        <label class="label" for="heroName" style="color:var(--rack-muted)">Patch name</label>
+        <input id="heroName" value="Lead vox — verse" autocomplete="off">
+        <button class="btn btn-primary btn-sm" id="heroSave" type="button">Save patch</button>
+        <span class="toast" id="heroToast" role="status"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="library" aria-labelledby="libTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="libTitle">Built for the desk you actually have.</h2>
+        <p>120 illustrated templates across 63 brands. Outboard, preamps, mics, interfaces, synths and monitors. If your piece isn’t here, build its panel from knobs, switches and selectors.</p>
+      </div>
+      <div class="cats" id="homeCats" role="group" aria-label="Filter templates"></div>
+      <div class="lib" id="homeLib"></div>
+      <p class="fine">Original Gear Locker illustrations. Product names and marks belong to their manufacturers. No affiliation or endorsement implied.</p>
+    </div>
+  </section>
+
+  <section class="band" id="how" aria-labelledby="howTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="howTitle">From one knob to the whole chain.</h2>
+        <p>A patch saves one piece. A session saves the chain in order. A recall sheet puts it on paper next to the rack.</p>
+      </div>
+      <div class="flow">
+        <article class="step">
+          <div class="mini" aria-label="Example patch">
+            <div class="label" style="margin-bottom:4px">Patch · LA-2A · “Vocal level”</div>
+            <div class="row"><span>Gain</span><span>40</span></div>
+            <div class="row"><span>Peak reduction</span><span>55</span></div>
+            <div class="row"><span>Mode</span><span>Compress</span></div>
+            <div class="row"><span>Meter</span><span>GR</span></div>
+          </div>
+          <h3>Save a patch</h3>
+          <p>Dial in a sound on the template and name it. Values read back as clock positions and the unit’s own markings.</p>
+        </article>
+        <article class="step">
+          <div class="mini" aria-label="Example session">
+            <div class="label">Session · “Northline” vocal chain</div>
+            <div class="chain">
+              <div class="link"><img src="img/shure-sm7b.svg" alt=""><b>SM7B</b><small>Presence on</small></div><span class="arr" aria-hidden="true">→</span>
+              <div class="link"><img src="img/neve-1073-preamp-equaliser.svg" alt=""><b>1073</b><small>−50 · HPF 80</small></div><span class="arr" aria-hidden="true">→</span>
+              <div class="link"><img src="img/teletronix-la-2a-leveling-amplifier.svg" alt=""><b>LA-2A</b><small>PR 55</small></div><span class="arr" aria-hidden="true">→</span>
+              <div class="link"><img src="img/universal-audio-1176ln-limiting-amplifier.svg" alt=""><b>1176LN</b><small>4:1 · A3 R7</small></div>
+            </div>
+          </div>
+          <h3>Group it into a session</h3>
+          <p>Save the chain in signal order, with versions. Come back to the mix in three months and start from the same place.</p>
+        </article>
+        <article class="step">
+          <div class="mini" style="background:transparent;padding:6px">
+            <div class="sheetpaper">
+              <div class="t"><span>Recall · Northline vox</span><span class="label">Nov 18</span></div>
+              <table>
+                <tr><td>1073 mic gain</td><td>−50</td></tr>
+                <tr><td>1073 HPF</td><td>80 Hz</td></tr>
+                <tr><td>LA-2A peak red.</td><td>55</td></tr>
+                <tr><td>1176 input</td><td>1:00</td></tr>
+                <tr><td>1176 attack / release</td><td>3 / 7</td></tr>
+              </table>
+            </div>
+          </div>
+          <h3>Print the recall sheet</h3>
+          <p>One page per session, laid out in signal order. Tape it to the rack, or share it with whoever’s mixing next.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="sync" aria-labelledby="syncTitle">
+    <div class="wrap sync">
+      <div>
+        <span class="label">New · included with Full Locker</span>
+        <h2 id="syncTitle" style="font-size:clamp(32px,3.8vw,52px);line-height:1;font-variation-settings:'wdth' 104;font-weight:800;margin-top:12px">The studio Mac and the laptop, in step.</h2>
+        <p style="color:var(--muted);margin-top:16px;max-width:52ch">Turn on sync and your locker follows you between machines. Everything is encrypted on your device before it leaves, so we store data we can’t read.</p>
+        <ul>
+          <li><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="3" y="8" width="12" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 8V6a3 3 0 0 1 6 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><div><b>Encrypted end to end</b><span>Your passphrase never leaves your devices. Lose it and we can’t recover your data, so keep your backup export too.</span></div></li>
+          <li><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h4l2-5 2 10 2-5h4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><div><b>Offline first</b><span>Work without a connection. Changes sync the next time either machine is online.</span></div></li>
+          <li><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 9h6" stroke="currentColor" stroke-width="1.6"/></svg><div><b>Off by default</b><span>Still no account to use Gear Locker. Sync is opt-in and uses your license key.</span></div></li>
+        </ul>
+      </div>
+      <div class="diagram" aria-label="Sync diagram: two devices exchange encrypted data through Gear Locker sync">
+        <div class="dev"><span class="label">Studio iMac</span><b>Northline vox</b><span class="plain">1176 input 1:00</span></div>
+        <div class="wire" aria-hidden="true">⇄</div>
+        <div class="cloud"><span class="label">Gear Locker sync</span><code>9f2c·a71e·0bd4·e6</code><span style="font-size:12px;color:var(--muted)">sees only this</span></div>
+        <div class="wire" aria-hidden="true">⇄</div>
+        <div class="dev"><span class="label">MacBook</span><b>Northline vox</b><span class="plain">1176 input 1:00</span></div>
+        <div class="sync-status"><i></i>Synced 2 min ago · 14 pieces · 63 patches</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="pricing" aria-labelledby="priceTitle">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="priceTitle">Pay once. Keep it.</h2>
+        <p>Start with five pieces for free. Unlock the whole collection when you’re ready. No subscription and no ads.</p>
+      </div>
+      <div class="prices">
+        <div class="price">
+          <span class="label">Core</span>
+          <div class="amt">Free</div>
+          <ul>
+            <li>Up to 5 pieces of gear</li>
+            <li>All 120 templates and custom panels</li>
+            <li>Patches, sessions and recall sheets</li>
+            <li>Service log and insurance report</li>
+            <li>Full backup export</li>
+          </ul>
+          <a class="btn btn-ghost" href="#start">Open free locker</a>
+        </div>
+        <div class="price feat">
+          <span class="label">Full Locker</span>
+          <div class="amt">$14<small>ONE TIME</small></div>
+          <ul>
+            <li>Unlimited gear, patches and sessions</li>
+            <li>Everything in Core</li>
+            <li class="new">Encrypted sync across your devices</li>
+            <li>One license for web and Android</li>
+            <li>Activates offline. No renewal.</li>
+          </ul>
+          <a class="btn btn-primary" href="#start">Get Full Locker</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© Oakline Labs</span>
+    <nav aria-label="Footer"><a href="#how">Field manual</a><a href="#how">Handbook</a><a href="#pricing">Activation help</a><a href="#home">Terms</a><a href="#home">Privacy</a></nav>
+  </div>
+</footer>
+</div>
+
+<!-- ================= FIRST RUN ================= -->
+<div id="view-start" hidden>
+  <div class="app">
+    <div class="app-top">
+      <div class="wrap">
+        <a class="brand" href="#home" aria-label="Back to the homepage"><img src="img/mark.svg" alt=""><b>Gear Locker</b></a>
+        <span class="label">Core · 0 of 5 pieces</span>
+        <div class="steps" aria-label="Setup progress" id="stepDots"><i class="on"></i><i></i><i></i></div>
+      </div>
+    </div>
+
+    <div class="wrap app-body">
+      <!-- step 1 -->
+      <div id="s1">
+        <span class="label">Step 1 of 3</span>
+        <h1 style="margin-top:8px">What’s on your desk?</h1>
+        <p class="sub">Pick your first piece. You can add the rest of the chain after.</p>
+        <div class="picker-tools">
+          <div class="search">
+            <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6"/></svg>
+            <input id="pickSearch" type="search" placeholder="Search 120 templates, e.g. 1176, Neve, SM7B" aria-label="Search templates" autocomplete="off">
+          </div>
+          <div class="cats" id="pickCats" role="group" aria-label="Filter by type" style="margin:0"></div>
+        </div>
+        <div class="lib" id="pickLib"></div>
+      </div>
+
+      <!-- step 2 -->
+      <div id="s2" hidden>
+        <button class="backlink" id="back1" type="button">← Choose a different piece</button>
+        <span class="label" style="display:block">Step 2 of 3</span>
+        <h1 style="margin-top:8px">Dial in a sound you use.</h1>
+        <p class="sub">Drag the knobs on the panel, or tab to a control and use the arrow keys. Click buttons and switches to flip them.</p>
+        <div class="dial">
+          <div class="rack"><div class="wrap">
+            <div class="rack-head"><span class="label" id="dialBrand"></span><h2 id="dialTitle"></h2></div>
+            <div class="unit-scroll"><div class="dial-unit"><div class="unit" id="dialUnit"></div></div></div>
+            <dl class="readout" id="dialReadout"></dl>
+            <div class="save-row">
+              <label class="label" for="dialName" style="color:var(--rack-muted)">Patch name</label>
+              <input id="dialName" value="My first patch" autocomplete="off">
+              <button class="btn btn-primary btn-sm" id="dialSave" type="button">Save to my locker</button>
+            </div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- step 3 -->
+      <div id="s3" hidden>
+        <span class="label">Step 3 of 3</span>
+        <h1 style="margin-top:8px">It’s in your locker.</h1>
+        <p class="sub">Saved on this device. Next, add the gear around it so you can save the whole chain as a session.</p>
+        <div class="locker">
+          <div class="piece">
+            <div class="pic"><img id="lockPic" alt=""></div>
+            <div>
+              <span class="label" id="lockBrand"></span>
+              <h3 id="lockTitle"></h3>
+              <span class="patch-pill" id="lockPatch"></span>
+              <dl class="readout" id="lockReadout" style="margin-top:14px"></dl>
+            </div>
+          </div>
+          <div class="next">
+            <h3>Add the next piece in your chain</h3>
+            <div class="sugg" id="sugg"></div>
+            <div class="toggle-row">
+              <div><b style="font-size:15px">Sync to my other devices</b><div style="color:var(--muted);font-size:14px">Encrypted. Included with Full Locker.</div></div>
+              <label class="switch"><input type="checkbox" id="syncToggle" aria-label="Sync to my other devices"><span></span></label>
+            </div>
+            <p id="syncNote" class="label" style="text-transform:none;letter-spacing:0;font-size:13px" hidden>In the real app this asks for your license key and a sync passphrase.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(()=>{
+/* ---------- data ---------- */
+const T=[
+ {id:"universal-audio-1176ln-limiting-amplifier",brand:"Universal Audio",name:"1176LN Limiting Amplifier",short:"1176LN",cat:"Outboard",shape:"wide"},
+ {id:"teletronix-la-2a-leveling-amplifier",brand:"Teletronix",name:"LA-2A Leveling Amplifier",short:"LA-2A",cat:"Outboard",shape:"wide"},
+ {id:"pultec-eqp-1a-program-equalizer",brand:"Pultec",name:"EQP-1A Program Equalizer",short:"EQP-1A",cat:"Outboard",shape:"wide"},
+ {id:"empirical-labs-distressor-el8x",brand:"Empirical Labs",name:"Distressor EL8-X",short:"Distressor",cat:"Outboard",shape:"wide"},
+ {id:"ssl-fusion",brand:"Solid State Logic",name:"SSL Fusion",short:"Fusion",cat:"Outboard",shape:"wide"},
+ {id:"neve-1073-preamp-equaliser",brand:"Neve",name:"1073 Preamp & EQ",short:"1073",cat:"Preamps & EQ",shape:"tall"},
+ {id:"api-550b",brand:"API",name:"550B EQ",short:"550B",cat:"Preamps & EQ",shape:"tall"},
+ {id:"warm-audio-wa273-eq",brand:"Warm Audio",name:"WA273-EQ",short:"WA273",cat:"Preamps & EQ",shape:"wide"},
+ {id:"shure-sm7b",brand:"Shure",name:"SM7B",short:"SM7B",cat:"Mics",shape:"tall"},
+ {id:"neumann-u-87-ai",brand:"Neumann",name:"U 87 Ai",short:"U 87",cat:"Mics",shape:"tall"},
+ {id:"universal-audio-apollo-twin-x",brand:"Universal Audio",name:"Apollo Twin X",short:"Apollo",cat:"Interfaces",shape:"mid"},
+ {id:"audient-id4-mkii",brand:"Audient",name:"iD4 MkII",short:"iD4",cat:"Interfaces",shape:"mid"},
+ {id:"roland-juno-106",brand:"Roland",name:"Juno-106",short:"Juno-106",cat:"Synths & drums",shape:"wide"},
+ {id:"moog-grandmother",brand:"Moog",name:"Grandmother",short:"Grandmother",cat:"Synths & drums",shape:"wide"},
+ {id:"roland-tr-808",brand:"Roland",name:"TR-808 Rhythm Composer",short:"TR-808",cat:"Synths & drums",shape:"wide"},
+ {id:"yamaha-hs8",brand:"Yamaha",name:"HS8",short:"HS8",cat:"Monitors",shape:"tall"}
+];
+const CATS=["All","Outboard","Preamps & EQ","Mics","Interfaces","Synths & drums","Monitors"];
+
+/* value formatting per template control: range [min,max,unit,decimals] or steps [] */
+const META={
+ "universal-audio-1176ln-limiting-amplifier":{
+   attack:{range:[1,7,"",1]}, release:{range:[1,7,"",1]},
+   groups:{ratio:{ids:["ratio-4","ratio-8","ratio-12","ratio-20"],labels:["4:1","8:1","12:1","20:1"],label:"Ratio"},
+           meter:{ids:["meter-gr","meter-8","meter-4","meter-off"],labels:["GR","+8","+4","Off"],label:"Meter"}}},
+ "teletronix-la-2a-leveling-amplifier":{gain:{range:[0,100,"",0]},"peak-reduction":{range:[0,100,"",0]},meter:{steps:["GR","+10","+4"]},"rear-limit-compress":{toggle:["Compress","Limit"]}},
+ "neve-1073-preamp-equaliser":{
+   gain:{steps:["Off","−20","−25","−30","−35","−40","−45","−50","−55","−60","−65","−70","−75","−80"]},
+   "high-frequency-12-khz":{range:[-16,16," dB",1]},"mid-gain":{range:[-18,18," dB",1]},"low-gain":{range:[-16,16," dB",1]},
+   "mid-frequency-khz":{steps:["Off","0.36k","0.7k","1.6k","3.2k","4.8k","7.2k"]},
+   "low-frequency-hz":{steps:["Off","35","60","110","220"]},"high-pass-hz":{steps:["Off","50","80","160","300"]},
+   eql:{toggle:["In","Out"]},phase:{toggle:["Norm","Rev"]}},
+ "pultec-eqp-1a-program-equalizer":{
+   "lf-boost":{range:[0,10,"",1]},"lf-atten":{range:[0,10,"",1]},"hf-boost":{range:[0,10,"",1]},"hf-atten":{range:[0,10,"",1]},"hf-bandwidth":{range:[0,10,"",1]},
+   "low-frequency-cps":{steps:["20","30","60","100"]},"high-frequency-kcs":{steps:["3k","4k","5k","8k","10k","12k","16k"]},"atten-sel-kcs":{steps:["5k","10k","20k"]},"eq-enable":{toggle:["In","Out"]}},
+ "shure-sm7b":{"bass-rolloff":{toggle:["Flat","Roll-off"]},"presence-boost":{toggle:["Flat","Boost"]}}
+};
+
+const HERO_PRESETS=[
+ {name:"Lead vox — verse",set:{input:30,output:-30,attack:-50,release:150},group:{ratio:[0],meter:[0]}},
+ {name:"Drum bus smash",set:{input:90,output:-60,attack:150,release:150},group:{ratio:[0,1,2,3],meter:[0]}},
+ {name:"Bass DI — gentle",set:{input:15,output:0,attack:50,release:50},group:{ratio:[0],meter:[0]}}
+];
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function clock(a){let h=12+a/30,H=Math.floor(h),m=Math.round((h-H)*12)*5;if(m===60){H++;m=0}H=((H-1)%12+12)%12+1;return H+":"+String(m).padStart(2,"0")}
+const svgCache={};
+function loadSVG(id){if(!svgCache[id])svgCache[id]=fetch("img/"+id+".svg").then(r=>r.text());return svgCache[id]}
+
+/* ---------- Panel engine: drives the knobs inside the real illustration ---------- */
+class Panel{
+  constructor(el,id,readout,onChange){this.el=el;this.id=id;this.readout=readout;this.onChange=onChange;this.meta=META[id]||{};this.ctrls=[];this.ready=this.init()}
+  async init(){
+    const txt=await loadSVG(this.id);
+    this.el.innerHTML=txt;
+    const svg=this.el.querySelector("svg");svg.removeAttribute("width");svg.removeAttribute("height");
+    svg.setAttribute("aria-label",(T.find(t=>t.id===this.id)||{}).name+" panel");
+    const grouped=new Set();Object.values(this.meta.groups||{}).forEach(g=>g.ids.forEach(i=>grouped.add(i)));
+    svg.querySelectorAll(".realistic-control").forEach(g=>{
+      const type=g.dataset.controlType,cid=g.dataset.controlId;
+      if(type==="jack")return;
+      const label=(g.getAttribute("aria-label")||cid).split(":")[0].trim();
+      const inner=g.querySelector(":scope > g > g");
+      const c={g,type,cid,label,inner,m:this.meta[cid]||{},grouped:grouped.has(cid)};
+      if(type==="knob"||type==="selector"){
+        const mt=(inner.getAttribute("transform")||"").match(/rotate\(([-\d.]+)/);c.a=mt?+mt[1]:0;c.a0=c.a;
+        if(type==="selector"){c.n=c.m.steps?c.m.steps.length:11}
+      }else if(type==="slider"){
+        c.cap=inner.querySelector(":scope > g[transform^='translate']");const r=inner.querySelector("rect");c.travel=r?(+r.getAttribute("height"))*0.43:40;c.v=0.5;c.v0=.5;
+      }else{c.on=false;c.on0=false}
+      g.setAttribute("data-interactive","");g.setAttribute("tabindex","0");
+      if(type==="knob"||type==="selector"||type==="slider"){g.setAttribute("role","slider");g.setAttribute("aria-valuemin","0");g.setAttribute("aria-valuemax","100")}
+      else{g.setAttribute("role","button")}
+      g.querySelector("title")?.remove();
+      this.bind(c);this.ctrls.push(c);
+    });
+    this.ctrls.forEach(c=>this.paint(c));
+    this.renderReadout();
+  }
+  snap(c,a){if(c.type!=="selector")return Math.max(-150,Math.min(150,a));const st=300/(c.n-1);return Math.round((Math.max(-150,Math.min(150,a))+150)/st)*st-150}
+  bind(c){
+    const g=c.g;
+    if(c.type==="knob"||c.type==="selector"||c.type==="slider"){
+      let sy=0,sa=0,moved=false;
+      g.addEventListener("pointerdown",e=>{e.preventDefault();g.setPointerCapture(e.pointerId);sy=e.clientY;sa=c.type==="slider"?c.v:c.a;moved=false;g.focus({preventScroll:true})});
+      g.addEventListener("pointermove",e=>{if(!g.hasPointerCapture(e.pointerId))return;const dy=sy-e.clientY;if(Math.abs(dy)>2)moved=true;
+        if(c.type==="slider")c.v=Math.max(0,Math.min(1,sa+dy/120));else c.a=this.snap(c,sa+dy*1.6);this.paint(c);this.changed(c)});
+      g.addEventListener("pointerup",e=>{if(!moved&&c.type==="selector"){const st=300/(c.n-1);c.a=c.a+st>150.01?-150:this.snap(c,c.a+st);this.paint(c);this.changed(c)}});
+      g.addEventListener("wheel",e=>{e.preventDefault();this.nudge(c,e.deltaY<0?1:-1)},{passive:false});
+      g.addEventListener("keydown",e=>{const k=e.key;if(k==="ArrowUp"||k==="ArrowRight"){e.preventDefault();this.nudge(c,e.shiftKey?5:1)}if(k==="ArrowDown"||k==="ArrowLeft"){e.preventDefault();this.nudge(c,e.shiftKey?-5:-1)}});
+    }else{
+      const act=()=>{this.press(c);};
+      g.addEventListener("click",act);
+      g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();act()}});
+    }
+  }
+  nudge(c,d){if(c.type==="slider")c.v=Math.max(0,Math.min(1,c.v+d*0.02));else if(c.type==="selector"){c.a=this.snap(c,c.a+d*300/(c.n-1))}else c.a=this.snap(c,c.a+d*6);this.paint(c);this.changed(c)}
+  press(c){
+    const grp=Object.values(this.meta.groups||{}).find(gr=>gr.ids.includes(c.cid));
+    if(grp){const others=grp.ids.map(i=>this.ctrls.find(x=>x.cid===i)).filter(Boolean);
+      const wasOnlyOn=c.on&&others.filter(o=>o.on).length===1;
+      if(!wasOnlyOn){others.forEach(o=>{o.on=o===c;this.paint(o)})}
+    }else{c.on=!c.on;this.paint(c)}
+    this.changed(c);
+  }
+  paint(c){
+    if(c.type==="knob"||c.type==="selector"){c.inner.setAttribute("transform",`rotate(${c.a})`);c.g.setAttribute("aria-valuenow",Math.round((c.a+150)/3));c.g.setAttribute("aria-valuetext",this.fmt(c));c.g.setAttribute("aria-label",c.label)}
+    else if(c.type==="slider"){c.cap&&c.cap.setAttribute("transform",`translate(0 ${(.5-c.v)*2*c.travel})`);c.g.setAttribute("aria-valuenow",Math.round(c.v*100));c.g.setAttribute("aria-valuetext",this.fmt(c));c.g.setAttribute("aria-label",c.label)}
+    else{c.g.classList.toggle("is-on",c.on);c.g.setAttribute("aria-pressed",c.on);c.g.setAttribute("aria-label",c.label);
+      if(c.type==="toggle"||c.type==="switch"){const t=c.inner.getAttribute("data-t0")??(c.inner.getAttribute("transform")||"");c.inner.setAttribute("data-t0",t);c.inner.setAttribute("transform",c.on?t+" scale(1,-1)":t)}}
+  }
+  fmt(c){
+    const m=c.m;
+    if(c.type==="knob"){if(m.range){const[a,b,u,d]=m.range;let v=a+(c.a+150)/300*(b-a);v=+v.toFixed(d);return(v>0&&a<0?"+":"")+String(v).replace("-","−")+u}return clock(c.a)}
+    if(c.type==="selector"){const i=Math.round((c.a+150)/(300/(c.n-1)));return m.steps?m.steps[i]:String(i+1)}
+    if(c.type==="slider")return(c.v*10).toFixed(1);
+    if(m.toggle)return c.on?m.toggle[1]:m.toggle[0];
+    return c.on?"On":"Off";
+  }
+  values(){
+    const out=[];const gs=this.meta.groups||{};const done=new Set();
+    this.ctrls.forEach(c=>{
+      const gk=Object.keys(gs).find(k=>gs[k].ids.includes(c.cid));
+      if(gk){if(done.has(gk))return;done.add(gk);const gr=gs[gk];const on=gr.ids.map((id,i)=>this.ctrls.find(x=>x.cid===id)?.on?gr.labels[i]:null).filter(Boolean);
+        const changed=on.length!==1||on[0]!==gr.labels[0];
+        out.push({k:gk,label:gr.label,v:on.length===gr.ids.length&&gk==="ratio"?"All":on.length?on.join(" + "):"—",changed});return}
+      const changed=c.type==="slider"?c.v!==c.v0:(c.type==="knob"||c.type==="selector")?c.a!==c.a0:c.on!==c.on0;
+      out.push({k:c.cid,label:c.label,v:this.fmt(c),changed});
+    });
+    return out;
+  }
+  renderReadout(){
+    if(!this.readout)return;
+    let vals=this.values();
+    if(vals.length>12){const ch=vals.filter(v=>v.changed);vals=(ch.length?ch:vals.slice(0,6)).slice(0,12)}
+    this.readout.innerHTML=vals.map(v=>`<div class="${v.changed?"changed":""}"><dt title="${v.label}">${v.label}</dt><dd>${v.v}</dd></div>`).join("");
+  }
+  changed(c){this.renderReadout();this.onChange&&this.onChange()}
+  apply(p){
+    const tgt={};Object.entries(p.set||{}).forEach(([k,v])=>{const c=this.ctrls.find(x=>x.cid===k);if(c)tgt[k]=[c,c.a,v]});
+    const gs=this.meta.groups||{};Object.entries(p.group||{}).forEach(([gk,idx])=>{gs[gk].ids.forEach((id,i)=>{const c=this.ctrls.find(x=>x.cid===id);if(c){c.on=idx.includes(i);this.paint(c)}})});
+    const dur=reduce?0:700,t0=performance.now();
+    const step=t=>{const k=dur?Math.min(1,(t-t0)/dur):1,e=1-Math.pow(1-k,3);
+      Object.values(tgt).forEach(([c,a,b])=>{c.a=a+(b-a)*e;this.paint(c)});this.renderReadout();if(k<1)requestAnimationFrame(step)};
+    requestAnimationFrame(step);
+  }
+  snapshot(){return{set:Object.fromEntries(this.ctrls.filter(c=>c.type==="knob"||c.type==="selector").map(c=>[c.cid,c.a])),group:Object.fromEntries(Object.entries(this.meta.groups||{}).map(([k,g])=>[k,g.ids.map((id,i)=>this.ctrls.find(x=>x.cid===id)?.on?i:-1).filter(i=>i>=0)]))}}
+}
+
+/* ---------- Hero ---------- */
+const heroChips=$("#heroPresets");
+let saved=store.get("gl-proto-saved")||[];
+function renderChips(active){
+  const all=[...HERO_PRESETS,...saved];
+  heroChips.innerHTML=all.map((p,i)=>`<button type="button" class="chip" data-i="${i}" aria-pressed="${active===i}">${p.name.replace(/</g,"&lt;")}</button>`).join("");
+}
+const hero=new Panel($("#heroUnit"),"universal-audio-1176ln-limiting-amplifier",$("#heroReadout"),()=>{heroChips.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed","false"))});
+hero.ready.then(()=>{renderChips(0);hero.apply(HERO_PRESETS[0]);setTimeout(()=>hero.ctrls.forEach(c=>{c.a0=c.a;c.on0=c.on}),reduce?0:750)});
+heroChips.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;const i=+b.dataset.i;const p=[...HERO_PRESETS,...saved][i];hero.apply(p);$("#heroName").value=p.name;renderChips(i)});
+$("#heroSave").addEventListener("click",()=>{
+  const name=($("#heroName").value||"Untitled patch").trim().slice(0,40);
+  const snap=hero.snapshot();snap.name=name;
+  saved=saved.filter(s=>s.name!==name);saved.push(snap);saved=saved.slice(-3);store.set("gl-proto-saved",saved);
+  renderChips(HERO_PRESETS.length+saved.length-1);
+  const t=$("#heroToast");t.textContent=`Saved “${name}”. Click it to recall.`;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),3200);
+});
+
+/* ---------- Library grids ---------- */
+function card(t){return `<button type="button" class="card" data-id="${t.id}"><div class="pic"><img src="img/${t.id}.svg" alt="" loading="lazy"></div><div class="meta"><span class="label">${t.cat}</span><b>${t.brand} ${t.name}</b></div></button>`}
+const buildCard=`<button type="button" class="card build" data-build="1"><div class="pic"><span class="plus" aria-hidden="true">+</span></div><div class="meta"><span class="label">Not in the library?</span><b>Build its panel yourself</b></div></button>`;
+function cats(el,state,cb){el.innerHTML=CATS.map(c=>`<button type="button" class="cat" aria-pressed="${c===state.cat}">${c}</button>`).join("");
+  el.onclick=e=>{const b=e.target.closest(".cat");if(!b)return;state.cat=b.textContent;el.querySelectorAll(".cat").forEach(x=>x.setAttribute("aria-pressed",x===b));cb()}}
+const hs={cat:"All"};
+function renderHome(){const list=T.filter(t=>hs.cat==="All"||t.cat===hs.cat).slice(0,hs.cat==="All"?7:16);$("#homeLib").innerHTML=list.map(card).join("")+buildCard}
+cats($("#homeCats"),hs,renderHome);renderHome();
+$("#homeLib").addEventListener("click",e=>{const b=e.target.closest(".card");if(!b)return;location.hash="start";if(b.dataset.id)setTimeout(()=>choose(b.dataset.id),0)});
+
+/* ---------- First run ---------- */
+const ps={cat:"All",q:""};
+function renderPick(){
+  const q=ps.q.toLowerCase();
+  const list=T.filter(t=>(ps.cat==="All"||t.cat===ps.cat)&&(!q||(t.brand+" "+t.name+" "+t.short).toLowerCase().includes(q)));
+  $("#pickLib").innerHTML=(list.length?list.map(card).join(""):`<div class="empty">No template matches “${ps.q.replace(/</g,"&lt;")}”. Build its panel from knobs, switches and selectors instead.</div>`)+buildCard;
+}
+cats($("#pickCats"),ps,renderPick);renderPick();
+$("#pickSearch").addEventListener("input",e=>{ps.q=e.target.value;renderPick()});
+$("#pickLib").addEventListener("click",e=>{const b=e.target.closest(".card");if(!b)return;if(b.dataset.id)choose(b.dataset.id);else choose("universal-audio-1176ln-limiting-amplifier",true)});
+let dial=null,cur=null;
+function step(n){["s1","s2","s3"].forEach((s,i)=>$("#"+s).hidden=i!==n-1);document.querySelectorAll("#stepDots i").forEach((d,i)=>d.classList.toggle("on",i<n));scrollTo({top:0,behavior:reduce?"auto":"smooth"})}
+function choose(id){
+  cur=T.find(t=>t.id===id);
+  $("#dialBrand").textContent=cur.brand;$("#dialTitle").textContent=cur.name;
+  const box=$("#dialUnit").parentElement;box.className="dial-unit "+(cur.shape==="tall"?"tall":cur.shape==="mid"?"mid":"");
+  $("#dialUnit").innerHTML="";dial=new Panel($("#dialUnit"),id,$("#dialReadout"));
+  $("#dialName").value=cur.cat==="Mics"?"Podcast voice":cur.cat==="Outboard"?"Vocal glue":"My first patch";
+  step(2);
+}
+$("#back1").addEventListener("click",()=>step(1));
+$("#dialSave").addEventListener("click",()=>{
+  const name=($("#dialName").value||"Untitled patch").trim().slice(0,40);
+  $("#lockPic").src="img/"+cur.id+".svg";$("#lockBrand").textContent=cur.brand;$("#lockTitle").textContent=cur.name;
+  $("#lockPatch").textContent="● "+name;
+  const vals=dial.values();const show=(vals.filter(v=>v.changed).length?vals.filter(v=>v.changed):vals).slice(0,6);
+  $("#lockReadout").innerHTML=show.map(v=>`<div><dt>${v.label}</dt><dd>${v.v}</dd></div>`).join("");
+  $("#lockReadout").style.cssText+=";--rack-2:var(--sunk);--rack-line:var(--line);--rack-ink:var(--ink);--rack-muted:var(--muted)";
+  const chain={"Mics":["neve-1073-preamp-equaliser","teletronix-la-2a-leveling-amplifier","universal-audio-apollo-twin-x"],"Preamps & EQ":["teletronix-la-2a-leveling-amplifier","universal-audio-1176ln-limiting-amplifier","shure-sm7b"],"Outboard":["neve-1073-preamp-equaliser","pultec-eqp-1a-program-equalizer","shure-sm7b"]}[cur.cat]||["universal-audio-apollo-twin-x","yamaha-hs8","universal-audio-1176ln-limiting-amplifier"];
+  $("#sugg").innerHTML=chain.filter(i=>i!==cur.id).slice(0,3).map(i=>{const t=T.find(x=>x.id===i);return `<button type="button" data-id="${i}"><img src="img/${i}.svg" alt="">${t.short}</button>`}).join("");
+  $("#stepDots").previousElementSibling.textContent="Core · 1 of 5 pieces";
+  step(3);
+});
+$("#sugg").addEventListener("click",e=>{const b=e.target.closest("button");if(b)choose(b.dataset.id)});
+$("#syncToggle").addEventListener("change",e=>{$("#syncNote").hidden=!e.target.checked});
+
+/* ---------- Routing, menu, theme ---------- */
+function route(){
+  const h=location.hash.slice(1);const start=h==="start";
+  $("#view-home").hidden=start;$("#view-start").hidden=!start;
+  document.querySelectorAll("[data-route]").forEach(a=>a.toggleAttribute("aria-current",false));
+  document.querySelector(`[data-route="${start?"start":"home"}"]`).setAttribute("aria-current","page");
+  if(start&&!cur)step(1);
+  if(start)scrollTo(0,0);
+  closeMenu();
+}
+const mb=$("#menuBtn"),sh=$("#sheet");
+function closeMenu(){mb.setAttribute("aria-expanded","false");sh.hidden=true}
+mb.addEventListener("click",()=>{const o=mb.getAttribute("aria-expanded")==="true";mb.setAttribute("aria-expanded",!o);sh.hidden=o});
+sh.addEventListener("click",e=>{if(e.target.closest("a"))closeMenu()});
+addEventListener("hashchange",route);route();
+const modes=["system","light","dark"];let mi=0;const saveTheme=store.get("gl-proto-theme");if(saveTheme)mi=modes.indexOf(saveTheme)<0?0:modes.indexOf(saveTheme);
+function applyTheme(){const m=modes[mi];if(m==="system")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",m);$("#themeBtn").textContent="Theme: "+m}
+$("#themeBtn").addEventListener("click",()=>{mi=(mi+1)%3;store.set("gl-proto-theme",modes[mi]);applyTheme()});applyTheme();
+})();
+</script>
+
+</body>
+</html>
