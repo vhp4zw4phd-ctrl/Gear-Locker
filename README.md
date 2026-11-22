@@ -8,6 +8,7 @@ Save the settings on your gear and recall them later. By Oakline Labs.
 |-------------------------------|---------------------------------------------------------------------|
 | `prototype/direction-a/`      | Clickable redesign prototype ("The Bench"), home-studio focus        |
 | `docs/sync-cloudflare.md`     | Plan for end-to-end encrypted sync on Cloudflare Workers, D1 and R2  |
+| `auto-backup/`                | Phase 0: automatic backup to a folder (iCloud Drive, Dropbox), ready to wire into the app. See `auto-backup/INTEGRATION.md` |
 
 The production site source is not in this repo yet.
 

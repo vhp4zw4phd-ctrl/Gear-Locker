@@ -115,7 +115,7 @@ as long as the storage cap holds.
 
 ## Rollout
 
-1. **Phase 0, free and immediate:** "Auto-backup to a folder" using the
+1. **Phase 0, free and immediate (built: `auto-backup/`):** "Auto-backup to a folder" using the
    browser's File System Access API (Chrome and Edge on desktop). The user
    picks a folder in iCloud Drive or Dropbox. No server, no cost. Not real
    sync, but it removes most of the data-loss risk now.

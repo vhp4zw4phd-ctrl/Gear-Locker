@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gear Locker Auto-backup Demo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{--bg:#F1EEEC;--surface:#FBFAF9;--ink:#1C1714;--muted:#5C524C;--line:#DCD4CE;--accent:#E8611A;--accent-ink:#1C1714;--ok:#5E7F45;--warn:#B0460D}
+@media (prefers-color-scheme:dark){:root{--bg:#131110;--surface:#1C1916;--ink:#F1EBE6;--muted:#AFA49B;--line:#352E29;--accent:#FF7A33;--accent-ink:#1A120D;--ok:#97BC7A;--warn:#FF9257;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Hanken Grotesk",system-ui,sans-serif}
+main{max-width:720px;margin:0 auto;padding:40px max(16px,env(safe-area-inset-left))}
+h1{font-size:32px;margin:0 0 6px}
+.muted{color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;margin-top:20px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{font:600 15px "Hanken Grotesk",sans-serif;padding:11px 16px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.status{display:flex;gap:10px;align-items:center;font-family:"JetBrains Mono",monospace;font-size:13px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--muted)}
+.dot.saved{background:var(--ok)}.dot.saving{background:var(--accent)}.dot.needs-permission,.dot.error{background:var(--warn)}
+ul{padding-left:18px;margin:8px 0 0;font-family:"JetBrains Mono",monospace;font-size:12px}
+input{font:inherit;padding:9px 12px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+code{font-family:"JetBrains Mono",monospace;font-size:13px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Automatic backup</h1>
+  <p class="muted">Demo of Phase 0. It uses a sample locker in its own database (<code>gear-locker-demo</code>), so it never touches a real locker. Open it in Chrome or Edge on a computer.</p>
+
+  <div class="card">
+    <div class="status"><span class="dot" id="dot"></span><span id="statusText">Loading…</span></div>
+    <p id="detail" class="muted" style="margin:10px 0 0"></p>
+    <div class="row" id="actions"></div>
+    <div class="row" style="align-items:center">
+      <label for="device" class="muted">This computer</label>
+      <input id="device" maxlength="40">
+    </div>
+  </div>
+
+  <div class="card">
+    <strong>Sample locker</strong>
+    <p class="muted" style="margin:4px 0 0">Add a patch to see a backup save about 3 seconds later.</p>
+    <p id="count" style="margin:10px 0 0"></p>
+    <div class="row"><button id="addPatch" type="button">Add a patch</button><button id="reset" type="button">Reset sample locker</button></div>
+  </div>
+
+  <div class="card">
+    <strong>Files in the folder</strong>
+    <ul id="files"><li class="muted">No folder chosen.</li></ul>
+  </div>
+</main>
+
+<script type="module">
+import { createAutoBackup, isSupported } from '../auto-backup.js';
+
+const DB = 'gear-locker-demo';
+const STORES = ['gear', 'panels', 'patches', 'sessions', 'service', 'boards', 'photos', 'meta'];
+
+function openDemo() {
+  return new Promise((res, rej) => {
+    const r = indexedDB.open(DB, 2);
+    r.onupgradeneeded = () => { for (const s of STORES) if (!r.result.objectStoreNames.contains(s)) r.result.createObjectStore(s, { keyPath: s === 'meta' ? 'key' : 'id' }); };
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  });
+}
+async function tx(store, mode, fn) {
+  const db = await openDemo();
+  return new Promise((res, rej) => { const t = db.transaction(store, mode); const out = fn(t.objectStore(store)); t.oncomplete = () => { db.close(); res(out.result); }; t.onerror = () => rej(t.error); });
+}
+async function seed(force) {
+  const n = await tx('gear', 'readonly', (s) => s.count());
+  if (n && !force) return;
+  await tx('gear', 'readwrite', (s) => { s.clear(); s.put({ id: 'g1', make: 'Universal Audio', model: '1176LN', category: 'Outboard', templateId: 'universal-audio-1176ln-limiting-amplifier' }); return s.put({ id: 'g2', make: 'Neve', model: '1073', category: 'Preamp', templateId: 'neve-1073-preamp-equaliser' }); });
+  await tx('patches', 'readwrite', (s) => { s.clear(); return s.put({ id: 'p1', gearId: 'g1', name: 'Lead vox — verse', values: { input: 30, output: -30, attack: 3, release: 7, ratio: '4' }, createdAt: new Date().toISOString() }); });
+}
+async function count() {
+  const [g, p] = await Promise.all([tx('gear', 'readonly', (s) => s.count()), tx('patches', 'readonly', (s) => s.count())]);
+  document.getElementById('count').textContent = `${g} pieces · ${p} patches`;
+}
+
+const ab = createAutoBackup({ dbName: DB, debounceSeconds: 3, generator: 'gear-locker-web/auto-backup-demo' });
+
+const LABEL = {
+  loading: 'Loading…', unsupported: 'Not available in this browser', off: 'Off',
+  'needs-permission': 'Paused: needs your OK', saving: 'Saving…', saved: 'On', error: 'Problem saving',
+};
+function btn(label, fn, primary) { const b = document.createElement('button'); b.type = 'button'; b.textContent = label; if (primary) b.className = 'primary'; b.onclick = async () => { b.disabled = true; try { await fn(); } finally { b.disabled = false; } }; return b; }
+
+async function render(s) {
+  document.getElementById('dot').className = 'dot ' + s.status;
+  document.getElementById('statusText').textContent = LABEL[s.status] + (s.folderName ? ` · ${s.folderName}` : '');
+  const d = document.getElementById('detail');
+  d.textContent = s.status === 'unsupported' ? 'Safari, Firefox and phones can’t save to a folder automatically. Use Export backup instead.'
+    : s.status === 'off' ? 'Pick a folder, ideally inside iCloud Drive, Dropbox or OneDrive.'
+    : s.status === 'needs-permission' ? 'Browsers ask again after a restart. Click Resume to keep saving to the same folder.'
+    : s.status === 'error' ? s.error
+    : s.lastBackupAt ? `Last backup ${new Date(s.lastBackupAt).toLocaleTimeString()} · ${(s.lastBytes / 1000).toFixed(1)} KB` : '';
+  const a = document.getElementById('actions'); a.replaceChildren();
+  if (s.status === 'off') a.append(btn('Choose backup folder', ab.chooseFolder, true));
+  if (s.status === 'needs-permission') a.append(btn('Resume backups', ab.resume, true), btn('Choose a different folder', ab.chooseFolder));
+  if (['saved', 'saving', 'error'].includes(s.status)) a.append(btn('Back up now', ab.backupNow, true), btn('Turn off', ab.turnOff));
+  const dev = document.getElementById('device'); if (document.activeElement !== dev) dev.value = s.deviceName;
+  const ul = document.getElementById('files');
+  const files = await ab.listBackups();
+  ul.innerHTML = files.length ? files.map((f) => `<li>${f.name} · ${(f.size / 1000).toFixed(1)} KB${f.mine ? '' : ' · other device'}</li>`).join('') : '<li class="muted">No backups yet.</li>';
+}
+
+ab.subscribe(render);
+document.getElementById('device').addEventListener('change', (e) => ab.setDeviceName(e.target.value));
+document.getElementById('addPatch').onclick = async () => {
+  const n = Date.now();
+  await tx('patches', 'readwrite', (s) => s.put({ id: 'p' + n, gearId: 'g1', name: `Patch ${new Date(n).toLocaleTimeString()}`, values: { input: Math.round(Math.random() * 300 - 150) }, createdAt: new Date(n).toISOString() }));
+  ab.notifyChange(); count();
+};
+document.getElementById('reset').onclick = async () => { await seed(true); ab.notifyChange(); count(); };
+
+await seed(false); await count();
+await ab.start();
+render(ab.getState());
+if (!isSupported()) console.info('File System Access API not available here.');
+</script>
+</body>
+</html>
