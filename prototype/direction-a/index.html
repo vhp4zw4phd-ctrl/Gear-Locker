@@ -66,8 +66,12 @@ p{margin:0}
 header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;gap:28px;height:64px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand img{width:34px;height:auto}
-.brand b{font-family:var(--f-display);font-variation-settings:"wdth" 125;font-weight:800;font-size:19px;letter-spacing:-.01em}
+.brand img{display:block;width:168px;height:auto}
+/* Approved Interlock lockup: black on light, white on dark. */
+.brand .logo-dark{display:none}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .brand .logo-light{display:none}:root:not([data-theme="light"]) .brand .logo-dark{display:block}}
+:root[data-theme="dark"] .brand .logo-light{display:none}
+:root[data-theme="dark"] .brand .logo-dark{display:block}
 .nav nav{display:flex;gap:24px;margin-left:auto;align-items:center}
 .nav nav a{text-decoration:none;font-weight:500;font-size:15px;color:var(--muted)}
 .nav nav a:hover{color:var(--ink)}
@@ -289,7 +293,7 @@ footer a:hover{color:var(--ink)}
 <div id="view-home">
 <header class="site">
   <div class="wrap nav">
-    <a class="brand" href="#home" aria-label="Gear Locker home"><img src="img/mark.svg" alt=""><b>Gear Locker</b></a>
+    <a class="brand" href="#home" aria-label="Gear Locker home"><img class="logo-light" src="img/gear-locker-logo-black.svg" alt="Gear Locker" width="168" height="27"><img class="logo-dark" src="img/gear-locker-logo-white.svg" alt="Gear Locker" width="168" height="27"></a>
     <nav aria-label="Main">
       <a href="#library">Templates</a>
       <a href="#how">How it works</a>
@@ -480,7 +484,7 @@ footer a:hover{color:var(--ink)}
   <div class="app">
     <div class="app-top">
       <div class="wrap">
-        <a class="brand" href="#home" aria-label="Back to the homepage"><img src="img/mark.svg" alt=""><b>Gear Locker</b></a>
+        <a class="brand" href="#home" aria-label="Back to the homepage"><img class="logo-light" src="img/gear-locker-logo-black.svg" alt="Gear Locker" width="168" height="27"><img class="logo-dark" src="img/gear-locker-logo-white.svg" alt="Gear Locker" width="168" height="27"></a>
         <span class="label">Core · 0 of 5 pieces</span>
         <div class="steps" aria-label="Setup progress" id="stepDots"><i class="on"></i><i></i><i></i></div>
       </div>
